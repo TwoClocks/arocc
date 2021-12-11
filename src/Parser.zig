@@ -3108,7 +3108,7 @@ fn stmt(p: *Parser) Error!NodeIndex {
 
         return try p.addNode(.{
             .tag = .while_stmt,
-            .data = .{ .bin = .{ .rhs = cond.node, .lhs = body } },
+            .data = .{ .bin = .{ .lhs = cond.node, .rhs = body } },
         });
     }
     if (p.eatToken(.keyword_do)) |_| {
@@ -3134,7 +3134,7 @@ fn stmt(p: *Parser) Error!NodeIndex {
         _ = try p.expectToken(.semicolon);
         return try p.addNode(.{
             .tag = .do_while_stmt,
-            .data = .{ .bin = .{ .rhs = cond.node, .lhs = body } },
+            .data = .{ .bin = .{ .lhs = cond.node, .rhs = body } },
         });
     }
     if (p.eatToken(.keyword_for)) |_| {

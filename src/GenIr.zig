@@ -32,10 +32,14 @@ node_data: []const Tree.Node.Data,
 node_ty: []const Type,
 wip_switch: *WipSwitch = undefined,
 symbols: std.ArrayListUnmanaged(Symbol) = .{},
+breaks: std.ArrayListUnmanaged(u32) = .{},
+continues: std.ArrayListUnmanaged(u32) = .{},
 
 fn deinit(ir: *GenIr) void {
     ir.arena.deinit();
     ir.symbols.deinit(ir.comp.gpa);
+    ir.breaks.deinit(ir.comp.gpa);
+    ir.continues.deinit(ir.comp.gpa);
     ir.instructions.deinit(ir.comp.gpa);
     ir.* = undefined;
 }
@@ -253,6 +257,9 @@ fn genNode(ir: *GenIr, node: NodeIndex) Error!Ir.Ref {
             defer ir.wip_switch = old_wip_switch;
             ir.wip_switch = &wip_switch;
 
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+
             const cond = try ir.genNode(data.bin.lhs);
             const switch_index = ir.instructions.len;
             _ = try ir.addInst(switch (wip_switch.size) {
@@ -264,8 +271,13 @@ fn genNode(ir: *GenIr, node: NodeIndex) Error!Ir.Ref {
 
             _ = try ir.genNode(data.bin.rhs); // body
 
-            const default_ref = wip_switch.default orelse
-                try ir.addInst(.label, .{ .none = {} });
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+            const default_ref = wip_switch.default orelse end_ref;
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
 
             const switch_data = try ir.arena.allocator().create(Ir.Inst.Switch);
             switch_data.* = .{
@@ -273,7 +285,7 @@ fn genNode(ir: *GenIr, node: NodeIndex) Error!Ir.Ref {
                 .cases = try ir.arena.allocator().dupe(Ir.Inst.Switch.Case, wip_switch.cases.items),
                 .default = default_ref,
             };
-            ir.instructions.items(.data)[switch_index] = .{ .@"switch" = switch_data };
+            inst_data[switch_index] = .{ .@"switch" = switch_data };
         },
         .case_stmt => {
             const val = ir.tree.value_map.get(data.bin.lhs).?;
@@ -291,6 +303,156 @@ fn genNode(ir: *GenIr, node: NodeIndex) Error!Ir.Ref {
         .default_stmt => {
             ir.wip_switch.default = try ir.addInst(.label, .{ .none = {} });
             _ = try ir.genNode(data.un);
+        },
+        .while_stmt => {
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+            const old_continues = ir.continues.items.len;
+            defer ir.continues.items.len = old_continues;
+
+            const start_ref = try ir.addInst(.label, .{ .none = {} });
+            const cond = try ir.genNode(data.bin.lhs);
+            const jmp_index = ir.instructions.len;
+            _ = try ir.addInst(.jmp_false, undefined);
+            _ = try ir.genNode(data.bin.rhs);
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
+            inst_data[jmp_index] = .{ .bin = .{ .lhs = cond, .rhs = end_ref } };
+            for (ir.continues.items[old_continues..]) |continue_index| {
+                inst_data[continue_index] = .{ .un = start_ref };
+            }
+        },
+        .do_while_stmt => {
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+            const old_continues = ir.continues.items.len;
+            defer ir.continues.items.len = old_continues;
+
+            const start_ref = try ir.addInst(.label, .{ .none = {} });
+            _ = try ir.genNode(data.bin.rhs);
+
+            const cond_ref = try ir.addInst(.label, .{ .none = {} });
+            const cond = try ir.genNode(data.bin.lhs);
+            const jmp_index = ir.instructions.len;
+            _ = try ir.addInst(.jmp_true, undefined);
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
+            inst_data[jmp_index] = .{ .bin = .{ .lhs = cond, .rhs = start_ref } };
+            for (ir.continues.items[old_continues..]) |continue_index| {
+                inst_data[continue_index] = .{ .un = cond_ref };
+            }
+        },
+        .for_decl_stmt => {
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+            const old_continues = ir.continues.items.len;
+            defer ir.continues.items.len = old_continues;
+
+            const for_decl = data.forDecl(ir.tree);
+            for (for_decl.decls) |decl| _ = try ir.genNode(decl);
+
+            const start_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const jmp_index = ir.instructions.len;
+            var cond: ?Ir.Ref = null;
+            if (for_decl.cond != .none) {
+                cond = try ir.genNode(for_decl.cond);
+                _ = try ir.addInst(.jmp_false, undefined);
+            }
+
+            _ = try ir.genNode(for_decl.body);
+
+            const continue_ref = try ir.addInst(.label, .{ .none = {} });
+            if (for_decl.incr != .none) {
+                _ = try ir.genNode(for_decl.incr);
+            }
+            _ = try ir.addInst(.jmp, .{ .un = start_ref });
+
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
+            if (cond) |some| {
+                inst_data[jmp_index] = .{ .bin = .{ .lhs = some, .rhs = end_ref } };
+            }
+            for (ir.continues.items[old_continues..]) |continue_index| {
+                inst_data[continue_index] = .{ .un = continue_ref };
+            }
+        },
+        .forever_stmt => {
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+            const old_continues = ir.continues.items.len;
+            defer ir.continues.items.len = old_continues;
+
+            const start_ref = try ir.addInst(.label, .{ .none = {} });
+            _ = try ir.genNode(data.un);
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
+            for (ir.continues.items[old_continues..]) |continue_index| {
+                inst_data[continue_index] = .{ .un = start_ref };
+            }
+        },
+        .for_stmt => {
+            const old_breaks = ir.breaks.items.len;
+            defer ir.breaks.items.len = old_breaks;
+            const old_continues = ir.continues.items.len;
+            defer ir.continues.items.len = old_continues;
+
+            const for_stmt = data.forStmt(ir.tree);
+            if (for_stmt.init != .none) _ = try ir.genNode(for_stmt.init);
+
+            const start_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const jmp_index = ir.instructions.len;
+            var cond: ?Ir.Ref = null;
+            if (for_stmt.cond != .none) {
+                cond = try ir.genNode(for_stmt.cond);
+                _ = try ir.addInst(.jmp_false, undefined);
+            }
+
+            _ = try ir.genNode(for_stmt.body);
+
+            const continue_ref = try ir.addInst(.label, .{ .none = {} });
+            if (for_stmt.incr != .none) {
+                _ = try ir.genNode(for_stmt.incr);
+            }
+            _ = try ir.addInst(.jmp, .{ .un = start_ref });
+
+            const end_ref = try ir.addInst(.label, .{ .none = {} });
+
+            const inst_data = ir.instructions.items(.data);
+            for (ir.breaks.items[old_breaks..]) |break_index| {
+                inst_data[break_index] = .{ .un = end_ref };
+            }
+            if (cond) |some| {
+                inst_data[jmp_index] = .{ .bin = .{ .lhs = some, .rhs = end_ref } };
+            }
+            for (ir.continues.items[old_continues..]) |continue_index| {
+                inst_data[continue_index] = .{ .un = continue_ref };
+            }
+        },
+        .continue_stmt => {
+            try ir.continues.append(ir.comp.gpa, @intCast(u32, ir.instructions.len));
+            _ = try ir.addInst(.jmp, undefined);
+        },
+        .break_stmt => {
+            try ir.breaks.append(ir.comp.gpa, @intCast(u32, ir.instructions.len));
+            _ = try ir.addInst(.jmp, undefined);
         },
         .return_stmt => {
             if (data.un == .none)
