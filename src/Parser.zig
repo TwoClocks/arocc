@@ -3055,11 +3055,6 @@ fn stmt(p: *Parser) Error!NodeIndex {
                 .tag = .if_then_else_stmt,
                 .data = .{ .if3 = .{ .cond = cond.node, .body = (try p.addList(&.{ then, @"else" })).start } },
             })
-        else if (then == .none and @"else" != .none)
-            return try p.addNode(.{
-                .tag = .if_else_stmt,
-                .data = .{ .bin = .{ .lhs = cond.node, .rhs = @"else" } },
-            })
         else
             return try p.addNode(.{
                 .tag = .if_then_stmt,
