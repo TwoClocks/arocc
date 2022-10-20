@@ -8,7 +8,7 @@
 #pragma pack(2)
 typedef struct {
 #ifdef MSVC
-    __declspec(align(4)) char:1;
+    char:1 __declspec(align(4)) ;
 #else
     char:1 __attribute__((aligned(4)));
 #endif
@@ -16,13 +16,8 @@ typedef struct {
 A var1;
 #pragma pack()
 struct A_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(A)];
-    char b;
-#else
     char a;
     A b;
-#endif
 };
 struct A_extra_alignment var2;
 #pragma pack(1)
@@ -31,13 +26,8 @@ struct A_extra_packed {
 };
 #pragma pack()
 struct A_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct A_extra_packed)];
-    char b;
-#else
     char a;
     struct A_extra_packed b;
-#endif
 };
 struct A_extra_required_alignment var3;
 struct A_extra_size {
@@ -53,13 +43,8 @@ typedef A unnamed_type_5[0];
 #endif
 unnamed_type_5 var6;
 struct unnamed_type_5_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_5)];
-    char b;
-#else
     char a;
     unnamed_type_5 b;
-#endif
 };
 struct unnamed_type_5_extra_alignment var7;
 #pragma pack(1)
@@ -68,13 +53,8 @@ struct unnamed_type_5_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_5_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_5_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_5_extra_packed b;
-#endif
 };
 struct unnamed_type_5_extra_required_alignment var8;
 struct unnamed_type_5_extra_size {
@@ -88,13 +68,8 @@ typedef struct {
 } B;
 B var10;
 struct B_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(B)];
-    char b;
-#else
     char a;
     B b;
-#endif
 };
 struct B_extra_alignment var11;
 #pragma pack(1)
@@ -103,13 +78,8 @@ struct B_extra_packed {
 };
 #pragma pack()
 struct B_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct B_extra_packed)];
-    char b;
-#else
     char a;
     struct B_extra_packed b;
-#endif
 };
 struct B_extra_required_alignment var12;
 struct B_extra_size {
@@ -119,19 +89,14 @@ struct B_extra_size {
 struct B_extra_size var13;
 
 #ifdef MSVC
-__declspec(align(2)) typedef char C;
+typedef char C __declspec(align(2)) ;
 #else
 typedef char C __attribute__((aligned(2)));
 #endif
 C var14;
 struct C_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(C)];
-    char b;
-#else
     char a;
     C b;
-#endif
 };
 struct C_extra_alignment var15;
 #pragma pack(1)
@@ -140,13 +105,8 @@ struct C_extra_packed {
 };
 #pragma pack()
 struct C_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct C_extra_packed)];
-    char b;
-#else
     char a;
     struct C_extra_packed b;
-#endif
 };
 struct C_extra_required_alignment var16;
 struct C_extra_size {
@@ -162,13 +122,8 @@ typedef C unnamed_type_18[0];
 #endif
 unnamed_type_18 var19;
 struct unnamed_type_18_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_18)];
-    char b;
-#else
     char a;
     unnamed_type_18 b;
-#endif
 };
 struct unnamed_type_18_extra_alignment var20;
 #pragma pack(1)
@@ -177,13 +132,8 @@ struct unnamed_type_18_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_18_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_18_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_18_extra_packed b;
-#endif
 };
 struct unnamed_type_18_extra_required_alignment var21;
 struct unnamed_type_18_extra_size {
@@ -197,13 +147,8 @@ typedef struct {
 } D;
 D var23;
 struct D_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(D)];
-    char b;
-#else
     char a;
     D b;
-#endif
 };
 struct D_extra_alignment var24;
 #pragma pack(1)
@@ -212,13 +157,8 @@ struct D_extra_packed {
 };
 #pragma pack()
 struct D_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct D_extra_packed)];
-    char b;
-#else
     char a;
     struct D_extra_packed b;
-#endif
 };
 struct D_extra_required_alignment var25;
 struct D_extra_size {
@@ -230,8 +170,8 @@ struct D_extra_size var26;
 #pragma pack(2)
 typedef struct {
 #ifdef MSVC
-    __declspec(align(8)) char:1;
-    __declspec(align(2)) char c;
+    char:1 __declspec(align(8)) ;
+    char c __declspec(align(2)) ;
 #else
     char:1 __attribute__((aligned(8)));
     char c __attribute__((aligned(2)));
@@ -240,13 +180,8 @@ typedef struct {
 E var27;
 #pragma pack()
 struct E_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(E)];
-    char b;
-#else
     char a;
     E b;
-#endif
 };
 struct E_extra_alignment var28;
 #pragma pack(1)
@@ -255,13 +190,8 @@ struct E_extra_packed {
 };
 #pragma pack()
 struct E_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct E_extra_packed)];
-    char b;
-#else
     char a;
     struct E_extra_packed b;
-#endif
 };
 struct E_extra_required_alignment var29;
 struct E_extra_size {
@@ -277,13 +207,8 @@ typedef E unnamed_type_31[0];
 #endif
 unnamed_type_31 var32;
 struct unnamed_type_31_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_31)];
-    char b;
-#else
     char a;
     unnamed_type_31 b;
-#endif
 };
 struct unnamed_type_31_extra_alignment var33;
 #pragma pack(1)
@@ -292,13 +217,8 @@ struct unnamed_type_31_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_31_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_31_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_31_extra_packed b;
-#endif
 };
 struct unnamed_type_31_extra_required_alignment var34;
 struct unnamed_type_31_extra_size {
@@ -312,13 +232,8 @@ typedef struct {
 } F;
 F var36;
 struct F_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(F)];
-    char b;
-#else
     char a;
     F b;
-#endif
 };
 struct F_extra_alignment var37;
 #pragma pack(1)
@@ -327,13 +242,8 @@ struct F_extra_packed {
 };
 #pragma pack()
 struct F_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct F_extra_packed)];
-    char b;
-#else
     char a;
     struct F_extra_packed b;
-#endif
 };
 struct F_extra_required_alignment var38;
 struct F_extra_size {
@@ -344,8 +254,8 @@ struct F_extra_size var39;
 
 typedef struct {
 #ifdef MSVC
-    __declspec(align(16)) char:1;
-    __declspec(align(8)) char c;
+    char:1 __declspec(align(16)) ;
+    char c __declspec(align(8)) ;
 #else
     char:1 __attribute__((aligned(16)));
     char c __attribute__((aligned(8)));
@@ -353,13 +263,8 @@ typedef struct {
 } G;
 G var40;
 struct G_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(G)];
-    char b;
-#else
     char a;
     G b;
-#endif
 };
 struct G_extra_alignment var41;
 #pragma pack(1)
@@ -368,13 +273,8 @@ struct G_extra_packed {
 };
 #pragma pack()
 struct G_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct G_extra_packed)];
-    char b;
-#else
     char a;
     struct G_extra_packed b;
-#endif
 };
 struct G_extra_required_alignment var42;
 struct G_extra_size {
@@ -390,13 +290,8 @@ typedef G unnamed_type_44[0];
 #endif
 unnamed_type_44 var45;
 struct unnamed_type_44_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_44)];
-    char b;
-#else
     char a;
     unnamed_type_44 b;
-#endif
 };
 struct unnamed_type_44_extra_alignment var46;
 #pragma pack(1)
@@ -405,13 +300,8 @@ struct unnamed_type_44_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_44_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_44_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_44_extra_packed b;
-#endif
 };
 struct unnamed_type_44_extra_required_alignment var47;
 struct unnamed_type_44_extra_size {
@@ -425,13 +315,8 @@ typedef struct {
 } H;
 H var49;
 struct H_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(H)];
-    char b;
-#else
     char a;
     H b;
-#endif
 };
 struct H_extra_alignment var50;
 #pragma pack(1)
@@ -440,13 +325,8 @@ struct H_extra_packed {
 };
 #pragma pack()
 struct H_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct H_extra_packed)];
-    char b;
-#else
     char a;
     struct H_extra_packed b;
-#endif
 };
 struct H_extra_required_alignment var51;
 struct H_extra_size {
@@ -462,13 +342,8 @@ typedef char unnamed_type_53[0];
 #endif
 unnamed_type_53 var54;
 struct unnamed_type_53_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_53)];
-    char b;
-#else
     char a;
     unnamed_type_53 b;
-#endif
 };
 struct unnamed_type_53_extra_alignment var55;
 #pragma pack(1)
@@ -477,13 +352,8 @@ struct unnamed_type_53_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_53_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_53_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_53_extra_packed b;
-#endif
 };
 struct unnamed_type_53_extra_required_alignment var56;
 struct unnamed_type_53_extra_size {
@@ -497,13 +367,8 @@ typedef struct {
 } I;
 I var58;
 struct I_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(I)];
-    char b;
-#else
     char a;
     I b;
-#endif
 };
 struct I_extra_alignment var59;
 #pragma pack(1)
@@ -512,13 +377,8 @@ struct I_extra_packed {
 };
 #pragma pack()
 struct I_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct I_extra_packed)];
-    char b;
-#else
     char a;
     struct I_extra_packed b;
-#endif
 };
 struct I_extra_required_alignment var60;
 struct I_extra_size {
@@ -534,13 +394,8 @@ typedef char unnamed_type_62[0];
 #endif
 unnamed_type_62 var63;
 struct unnamed_type_62_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_62)];
-    char b;
-#else
     char a;
     unnamed_type_62 b;
-#endif
 };
 struct unnamed_type_62_extra_alignment var64;
 #pragma pack(1)
@@ -549,13 +404,8 @@ struct unnamed_type_62_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_62_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_62_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_62_extra_packed b;
-#endif
 };
 struct unnamed_type_62_extra_required_alignment var65;
 struct unnamed_type_62_extra_size {
@@ -566,20 +416,15 @@ struct unnamed_type_62_extra_size var66;
 
 typedef struct {
 #ifdef MSVC
-    __declspec(align(8)) unnamed_type_62 c;
+    unnamed_type_62 c __declspec(align(8)) ;
 #else
     unnamed_type_62 c __attribute__((aligned(8)));
 #endif
 } J;
 J var67;
 struct J_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(J)];
-    char b;
-#else
     char a;
     J b;
-#endif
 };
 struct J_extra_alignment var68;
 #pragma pack(1)
@@ -588,13 +433,8 @@ struct J_extra_packed {
 };
 #pragma pack()
 struct J_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct J_extra_packed)];
-    char b;
-#else
     char a;
     struct J_extra_packed b;
-#endif
 };
 struct J_extra_required_alignment var69;
 struct J_extra_size {
@@ -610,13 +450,8 @@ typedef char unnamed_type_71[0];
 #endif
 unnamed_type_71 var72;
 struct unnamed_type_71_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(unnamed_type_71)];
-    char b;
-#else
     char a;
     unnamed_type_71 b;
-#endif
 };
 struct unnamed_type_71_extra_alignment var73;
 #pragma pack(1)
@@ -625,13 +460,8 @@ struct unnamed_type_71_extra_packed {
 };
 #pragma pack()
 struct unnamed_type_71_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct unnamed_type_71_extra_packed)];
-    char b;
-#else
     char a;
     struct unnamed_type_71_extra_packed b;
-#endif
 };
 struct unnamed_type_71_extra_required_alignment var74;
 struct unnamed_type_71_extra_size {
@@ -642,20 +472,15 @@ struct unnamed_type_71_extra_size var75;
 
 typedef struct {
 #ifdef MSVC
-    __declspec(align(2)) unnamed_type_71 c;
+    unnamed_type_71 c __declspec(align(2)) ;
 #else
     unnamed_type_71 c __attribute__((aligned(2)));
 #endif
 } K;
 K var76;
 struct K_extra_alignment {
-#ifdef MSVC
-    char a[_Alignof(K)];
-    char b;
-#else
     char a;
     K b;
-#endif
 };
 struct K_extra_alignment var77;
 #pragma pack(1)
@@ -664,13 +489,8 @@ struct K_extra_packed {
 };
 #pragma pack()
 struct K_extra_required_alignment {
-#ifdef MSVC
-    char a[_Alignof(struct K_extra_packed)];
-    char b;
-#else
     char a;
     struct K_extra_packed b;
-#endif
 };
 struct K_extra_required_alignment var78;
 struct K_extra_size {
@@ -798,8 +618,8 @@ _Static_assert(sizeof(struct K_extra_required_alignment) == 1, "");
 _Static_assert(_Alignof(struct K_extra_required_alignment) == 1, "");
 _Static_assert(sizeof(struct K_extra_size) == 2, "");
 _Static_assert(_Alignof(struct K_extra_size) == 1, "");
-// MAPPING|TWO|aarch64-generic-fuchsia-gnu:Clang|aarch64-generic-linux-android:Clang|aarch64-generic-freebsd-gnu:Clang|aarch64-generic-hermit-eabi:Clang|aarch64-generic-netbsd-gnu:Clang|aarch64-generic-other-eabi:Clang|aarch64-generic-openbsd-gnu:Clang|arm-baseline-other-eabi:Clang|arm-baseline-other-eabihf:Clang|arm-arm1136j_s-freebsd-gnueabihf:Clang|arm-arm1136j_s-netbsd-eabihf:Clang|arm-baseline-other-eabi:Clang|arm-baseline-other-eabihf:Clang|arm-cortex_r4-ios-none:Clang|arm-cortex_r4-linux-android:Clang|arm-cortex_r4-other-eabi:Clang|arm-cortex_r4-other-eabihf:Clang|arm-baseline-ios-none:Clang|arm-cortex_r4-freebsd-gnueabihf:Clang|arm-cortex_r4-netbsd-eabihf:Clang|thumb-arm710t-other-eabi:Clang|thumb-cortex_m0-other-eabi:Clang|thumb-cortex_m4-other-eabihf:Clang|thumb-cortex_m4-other-eabi:Clang|thumb-cortex_m3-other-eabi:Clang|thumb-baseline-other-eabi:Clang|thumb-cortex_m33-other-eabihf:Clang|thumb-cortex_m33-other-eabi:Clang|END
-// repr targets Aarch64Fuchsia|Some("aarch64-generic-fuchsia-gnu") Aarch64LinuxAndroid|Some("aarch64-generic-linux-android") Aarch64UnknownFreebsd|Some("aarch64-generic-freebsd-gnu") Aarch64UnknownHermit|Some("aarch64-generic-hermit-eabi") Aarch64UnknownNetbsd|Some("aarch64-generic-netbsd-gnu") Aarch64UnknownNone|Some("aarch64-generic-other-eabi") Aarch64UnknownOpenbsd|Some("aarch64-generic-openbsd-gnu") Aarch64UnknownRedox|None Armebv7rUnknownNoneEabi|Some("arm-baseline-other-eabi") Armebv7rUnknownNoneEabihf|Some("arm-baseline-other-eabihf") ArmLinuxAndroideabi|None Armv6UnknownFreebsdGnueabihf|Some("arm-arm1136j_s-freebsd-gnueabihf") Armv6UnknownNetbsdelfEabihf|Some("arm-arm1136j_s-netbsd-eabihf") Armv7aNoneEabi|Some("arm-baseline-other-eabi") Armv7aNoneEabihf|Some("arm-baseline-other-eabihf") Armv7AppleIos|Some("arm-cortex_r4-ios-none") Armv7NoneLinuxAndroid|Some("arm-cortex_r4-linux-android") Armv7rUnknownNoneEabi|Some("arm-cortex_r4-other-eabi") Armv7rUnknownNoneEabihf|Some("arm-cortex_r4-other-eabihf") Armv7sAppleIos|Some("arm-baseline-ios-none") Armv7UnknownFreebsdGnueabihf|Some("arm-cortex_r4-freebsd-gnueabihf") Armv7UnknownNetbsdelfEabihf|Some("arm-cortex_r4-netbsd-eabihf") Thumbv4tNoneEabi|Some("thumb-arm710t-other-eabi") Thumbv6mNoneEabi|Some("thumb-cortex_m0-other-eabi") Thumbv7emNoneEabihf|Some("thumb-cortex_m4-other-eabihf") Thumbv7emNoneEabi|Some("thumb-cortex_m4-other-eabi") Thumbv7mNoneEabi|Some("thumb-cortex_m3-other-eabi") Thumbv8mBaseNoneEabi|Some("thumb-baseline-other-eabi") Thumbv8mMainNoneEabihf|Some("thumb-cortex_m33-other-eabihf") Thumbv8mMainNoneEabi|Some("thumb-cortex_m33-other-eabi") 
+// MAPPING|TWO|aarch64-generic-fuchsia-gnu:Clang|aarch64-generic-linux-android:Clang|aarch64-generic-freebsd-gnu:Clang|aarch64-generic-hermit-eabi:Clang|aarch64-generic-netbsd-gnu:Clang|aarch64-generic-other-eabi:Clang|aarch64-generic-openbsd-gnu:Clang|arm-baseline-other-eabi:Clang|arm-baseline-other-eabihf:Clang|arm-arm1136j_s-freebsd-gnueabihf:Clang|arm-arm1136j_s-netbsd-eabihf:Clang|arm-baseline-other-eabi:Clang|arm-baseline-other-eabihf:Clang|arm-cortex_r4-ios-none:Clang|arm-cortex_r4-linux-android:Clang|arm-cortex_r4-other-eabi:Clang|arm-cortex_r4-other-eabihf:Clang|arm-baseline-ios-none:Clang|arm-cortex_r4-freebsd-gnueabihf:Clang|arm-cortex_r4-netbsd-eabihf:Clang|thumb-arm710t-other-eabi:Clang|thumb-cortex_m0-other-eabi:Clang|thumb-cortex_m4-other-eabihf:Clang|thumb-cortex_m4-other-eabi:Clang|thumb-sc300-other-eabi:Clang|thumb-baseline-other-eabi:Clang|thumb-cortex_m33-other-eabihf:Clang|thumb-cortex_m33-other-eabi:Clang|END
+// repr targets Aarch64Fuchsia|Some("aarch64-generic-fuchsia-gnu") Aarch64LinuxAndroid|Some("aarch64-generic-linux-android") Aarch64UnknownFreebsd|Some("aarch64-generic-freebsd-gnu") Aarch64UnknownHermit|Some("aarch64-generic-hermit-eabi") Aarch64UnknownNetbsd|Some("aarch64-generic-netbsd-gnu") Aarch64UnknownNone|Some("aarch64-generic-other-eabi") Aarch64UnknownOpenbsd|Some("aarch64-generic-openbsd-gnu") Aarch64UnknownRedox|None Armebv7rUnknownNoneEabi|Some("arm-baseline-other-eabi") Armebv7rUnknownNoneEabihf|Some("arm-baseline-other-eabihf") ArmLinuxAndroideabi|None Armv6UnknownFreebsdGnueabihf|Some("arm-arm1136j_s-freebsd-gnueabihf") Armv6UnknownNetbsdelfEabihf|Some("arm-arm1136j_s-netbsd-eabihf") Armv7aNoneEabi|Some("arm-baseline-other-eabi") Armv7aNoneEabihf|Some("arm-baseline-other-eabihf") Armv7AppleIos|Some("arm-cortex_r4-ios-none") Armv7NoneLinuxAndroid|Some("arm-cortex_r4-linux-android") Armv7rUnknownNoneEabi|Some("arm-cortex_r4-other-eabi") Armv7rUnknownNoneEabihf|Some("arm-cortex_r4-other-eabihf") Armv7sAppleIos|Some("arm-baseline-ios-none") Armv7UnknownFreebsdGnueabihf|Some("arm-cortex_r4-freebsd-gnueabihf") Armv7UnknownNetbsdelfEabihf|Some("arm-cortex_r4-netbsd-eabihf") Thumbv4tNoneEabi|Some("thumb-arm710t-other-eabi") Thumbv6mNoneEabi|Some("thumb-cortex_m0-other-eabi") Thumbv7emNoneEabihf|Some("thumb-cortex_m4-other-eabihf") Thumbv7emNoneEabi|Some("thumb-cortex_m4-other-eabi") Thumbv7mNoneEabi|Some("thumb-sc300-other-eabi") Thumbv8mBaseNoneEabi|Some("thumb-baseline-other-eabi") Thumbv8mMainNoneEabihf|Some("thumb-cortex_m33-other-eabihf") Thumbv8mMainNoneEabi|Some("thumb-cortex_m33-other-eabi") 
 #elif defined(TWO)
 _Static_assert(sizeof(A) == 2, "");
 _Static_assert(_Alignof(A) == 2, "");

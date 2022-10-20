@@ -11,8 +11,8 @@ typedef struct {
 } S;
 S var1;
 struct S_extra_alignment {
-    char a[_Alignof(S)];
-    char b;
+    char a;
+    S b;
 };
 struct S_extra_alignment var2;
 #pragma pack(1)
@@ -21,8 +21,8 @@ struct S_extra_packed {
 };
 #pragma pack()
 struct S_extra_required_alignment {
-    char a[_Alignof(struct S_extra_packed)];
-    char b;
+    char a;
+    struct S_extra_packed b;
 };
 struct S_extra_required_alignment var3;
 struct S_extra_size {
