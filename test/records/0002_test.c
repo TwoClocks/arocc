@@ -20,7 +20,11 @@ struct X_extra_alignment {
 struct X_extra_alignment var2;
 #pragma pack(1)
 struct X_extra_packed {
+#ifdef MSVC
+    char a[sizeof(X)];
+#else
     X a;
+#endif
 };
 #pragma pack()
 struct X_extra_required_alignment {
@@ -47,7 +51,11 @@ struct Y_extra_alignment {
 struct Y_extra_alignment var6;
 #pragma pack(1)
 struct Y_extra_packed {
+#ifdef MSVC
+    char a[sizeof(Y)];
+#else
     Y a;
+#endif
 };
 #pragma pack()
 struct Y_extra_required_alignment {

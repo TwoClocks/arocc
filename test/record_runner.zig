@@ -9,16 +9,16 @@ const global_test_exclude = std.ComptimeStringMap(void, .{
 });
 
 /// Set true to debug specific targets w/ specific tests.
-const test_single_target = false;
+const test_single_target = true;
 const single_target = .{
     // .target = "arm-cortex_r4-ios-none:Clang",
     // .c_test = "0064",
     // .target = "s390x-generic-linux-gnu:Gcc",
     // .c_test = "00", // run all the tests
-    // .target = "i386-i586-linux-gnu:Gcc",
-    // .c_test = "0002",
-    .target = "x86_64-x86_64-windows-msvc:Msvc",
-    .c_test = "0018", // run all the tests
+    .target = "i386-i586-linux-gnu:Gcc",
+    .c_test = "0003",
+    // .target = "x86_64-x86_64-windows-msvc:Msvc",
+    // .c_test = "00", // run all the tests
     // .target = "arm-arm1136j_s-freebsd-gnu:Clang",
     // .c_test = "0052",
 };
@@ -269,7 +269,8 @@ fn singleRun(alloc: std.mem.Allocator, path: []const u8, source: []const u8, tes
             if (std.ascii.indexOfIgnoreCase(line, "_Static_assert") != null) {
                 if (std.ascii.indexOfIgnoreCase(line, "_extra_") != null) {
                     // MSVC _extra_ tests are all assumed to fail atm.
-                    if (comp.langopts.emulate == .msvc or expected.extra) expected_errors = true else render = true;
+                    // if (comp.langopts.emulate == .msvc or expected.extra) expected_errors = true else render = true;
+                    if (!expected.extra) render = true else expected_errors = true;
                 } else if (std.ascii.indexOfIgnoreCase(line, "_bitoffsetof") != null) {
                     if (!expected.offset) render = true else expected_errors = true;
                 } else if (std.ascii.indexOfIgnoreCase(line, "sizeof") != null or

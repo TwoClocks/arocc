@@ -20,7 +20,11 @@ struct A1_extra_alignment {
 struct A1_extra_alignment var2;
 #pragma pack(1)
 struct A1_extra_packed {
+#ifdef MSVC
+    char a[sizeof(A1)];
+#else
     A1 a;
+#endif
 };
 #pragma pack()
 struct A1_extra_required_alignment {
@@ -49,7 +53,11 @@ struct A2_extra_alignment {
 struct A2_extra_alignment var6;
 #pragma pack(1)
 struct A2_extra_packed {
+#ifdef MSVC
+    char a[sizeof(A2)];
+#else
     A2 a;
+#endif
 };
 #pragma pack()
 struct A2_extra_required_alignment {
@@ -76,7 +84,11 @@ struct B_extra_alignment {
 struct B_extra_alignment var10;
 #pragma pack(1)
 struct B_extra_packed {
+#ifdef MSVC
+    char a[sizeof(B)];
+#else
     B a;
+#endif
 };
 #pragma pack()
 struct B_extra_required_alignment {
@@ -101,7 +113,11 @@ struct C1_extra_alignment {
 struct C1_extra_alignment var14;
 #pragma pack(1)
 struct C1_extra_packed {
+#ifdef MSVC
+    char a[sizeof(C1)];
+#else
     C1 a;
+#endif
 };
 #pragma pack()
 struct C1_extra_required_alignment {
@@ -126,7 +142,11 @@ struct C2_extra_alignment {
 struct C2_extra_alignment var18;
 #pragma pack(1)
 struct C2_extra_packed {
+#ifdef MSVC
+    char a[sizeof(C2)];
+#else
     C2 a;
+#endif
 };
 #pragma pack()
 struct C2_extra_required_alignment {
@@ -155,7 +175,11 @@ struct D1_extra_alignment {
 struct D1_extra_alignment var22;
 #pragma pack(1)
 struct D1_extra_packed {
+#ifdef MSVC
+    char a[sizeof(D1)];
+#else
     D1 a;
+#endif
 };
 #pragma pack()
 struct D1_extra_required_alignment {
@@ -184,7 +208,11 @@ struct D2_extra_alignment {
 struct D2_extra_alignment var26;
 #pragma pack(1)
 struct D2_extra_packed {
+#ifdef MSVC
+    char a[sizeof(D2)];
+#else
     D2 a;
+#endif
 };
 #pragma pack()
 struct D2_extra_required_alignment {
@@ -213,7 +241,11 @@ struct E1_extra_alignment {
 struct E1_extra_alignment var30;
 #pragma pack(1)
 struct E1_extra_packed {
+#ifdef MSVC
+    char a[sizeof(E1)];
+#else
     E1 a;
+#endif
 };
 #pragma pack()
 struct E1_extra_required_alignment {
@@ -242,7 +274,11 @@ struct E2_extra_alignment {
 struct E2_extra_alignment var34;
 #pragma pack(1)
 struct E2_extra_packed {
+#ifdef MSVC
+    char a[sizeof(E2)];
+#else
     E2 a;
+#endif
 };
 #pragma pack()
 struct E2_extra_required_alignment {

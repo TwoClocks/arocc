@@ -17,7 +17,7 @@ struct S_extra_alignment {
 struct S_extra_alignment var2;
 #pragma pack(1)
 struct S_extra_packed {
-    S a;
+    char a[sizeof(S)];
 };
 #pragma pack()
 struct S_extra_required_alignment {

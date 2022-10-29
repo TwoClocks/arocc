@@ -18,7 +18,11 @@ struct unnamed_type_1_extra_alignment {
 struct unnamed_type_1_extra_alignment var3;
 #pragma pack(1)
 struct unnamed_type_1_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_1)];
+#else
     unnamed_type_1 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_1_extra_required_alignment {
@@ -43,7 +47,11 @@ struct EmptyIntMemb_extra_alignment {
 struct EmptyIntMemb_extra_alignment var7;
 #pragma pack(1)
 struct EmptyIntMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyIntMemb)];
+#else
     EmptyIntMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyIntMemb_extra_required_alignment {
@@ -70,7 +78,11 @@ struct unnamed_type_10_extra_alignment {
 struct unnamed_type_10_extra_alignment var12;
 #pragma pack(1)
 struct unnamed_type_10_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_10)];
+#else
     unnamed_type_10 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_10_extra_required_alignment {
@@ -95,7 +107,11 @@ struct EmptyLongLongMemb_extra_alignment {
 struct EmptyLongLongMemb_extra_alignment var16;
 #pragma pack(1)
 struct EmptyLongLongMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyLongLongMemb)];
+#else
     EmptyLongLongMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyLongLongMemb_extra_required_alignment {
@@ -122,7 +138,11 @@ struct unnamed_type_19_extra_alignment {
 struct unnamed_type_19_extra_alignment var21;
 #pragma pack(1)
 struct unnamed_type_19_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_19)];
+#else
     unnamed_type_19 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_19_extra_required_alignment {
@@ -151,7 +171,11 @@ struct EmptyAligned2LongLongMemb_extra_alignment {
 struct EmptyAligned2LongLongMemb_extra_alignment var25;
 #pragma pack(1)
 struct EmptyAligned2LongLongMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyAligned2LongLongMemb)];
+#else
     EmptyAligned2LongLongMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyAligned2LongLongMemb_extra_required_alignment {
@@ -178,7 +202,11 @@ struct unnamed_type_28_extra_alignment {
 struct unnamed_type_28_extra_alignment var30;
 #pragma pack(1)
 struct unnamed_type_28_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_28)];
+#else
     unnamed_type_28 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_28_extra_required_alignment {
@@ -207,7 +235,11 @@ struct EmptyAligned8LongLongMemb_extra_alignment {
 struct EmptyAligned8LongLongMemb_extra_alignment var34;
 #pragma pack(1)
 struct EmptyAligned8LongLongMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyAligned8LongLongMemb)];
+#else
     EmptyAligned8LongLongMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyAligned8LongLongMemb_extra_required_alignment {
@@ -234,7 +266,11 @@ struct unnamed_type_37_extra_alignment {
 struct unnamed_type_37_extra_alignment var39;
 #pragma pack(1)
 struct unnamed_type_37_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_37)];
+#else
     unnamed_type_37 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_37_extra_required_alignment {
@@ -265,7 +301,11 @@ struct EmptyPackedAligned4LongLongMemb_extra_alignment {
 struct EmptyPackedAligned4LongLongMemb_extra_alignment var43;
 #pragma pack(1)
 struct EmptyPackedAligned4LongLongMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyPackedAligned4LongLongMemb)];
+#else
     EmptyPackedAligned4LongLongMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyPackedAligned4LongLongMemb_extra_required_alignment {
@@ -292,7 +332,11 @@ struct unnamed_type_46_extra_alignment {
 struct unnamed_type_46_extra_alignment var48;
 #pragma pack(1)
 struct unnamed_type_46_extra_packed {
+#ifdef MSVC
+    char a[sizeof(unnamed_type_46)];
+#else
     unnamed_type_46 a;
+#endif
 };
 #pragma pack()
 struct unnamed_type_46_extra_required_alignment {
@@ -323,7 +367,11 @@ struct EmptyPackedAligned8LongLongMemb_extra_alignment {
 struct EmptyPackedAligned8LongLongMemb_extra_alignment var52;
 #pragma pack(1)
 struct EmptyPackedAligned8LongLongMemb_extra_packed {
+#ifdef MSVC
+    char a[sizeof(EmptyPackedAligned8LongLongMemb)];
+#else
     EmptyPackedAligned8LongLongMemb a;
+#endif
 };
 #pragma pack()
 struct EmptyPackedAligned8LongLongMemb_extra_required_alignment {
