@@ -9,13 +9,13 @@ const global_test_exclude = std.ComptimeStringMap(void, .{
 });
 
 /// Set true to debug specific targets w/ specific tests.
-const test_single_target = true;
+const test_single_target = false;
 const single_target = .{
     // .target = "arm-cortex_r4-ios-none:Clang",
     // .c_test = "0064",
     // .target = "s390x-generic-linux-gnu:Gcc",
     // .c_test = "00", // run all the tests
-    .target = "i386-i586-linux-gnu:Gcc",
+    .target = "x86_64-x86_64-uefi-msvc:Msvc",
     .c_test = "0003",
     // .target = "x86_64-x86_64-windows-msvc:Msvc",
     // .c_test = "00", // run all the tests
@@ -198,7 +198,7 @@ fn singleRun(alloc: std.mem.Allocator, path: []const u8, source: []const u8, tes
 
     const mac_writer = macro_buf.writer();
     try mac_writer.print("#define {s}\n", .{test_case.c_define});
-    if (comp.target.os.tag == .windows) {
+    if (comp.target.os.tag == .windows or comp.target.os.tag == .uefi) {
         comp.langopts.enableMSExtensions();
         try mac_writer.writeAll("#define MSVC\n");
     }

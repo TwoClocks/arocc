@@ -424,7 +424,7 @@ const MscvContext = struct {
 pub fn compute(ty: *Type, comp: *const Compilation, pragma_pack: ?u8) void {
     // const mapper = comp.string_interner.getSlowTypeMapper();
     // const name = mapper.lookup(ty.getRecord().?.name);
-    // std.debug.print("struct {s}\n", .{name});
+    // std.debug.print("struct {s} -> {?} -> {s}\n", .{ name, PrettyTarget{ .t = &comp.target }, @tagName(comp.langopts.emulate) });
     switch (comp.langopts.emulate) {
         .gcc, .clang => {
             var context = SysVContext.init(ty, comp, pragma_pack);
@@ -526,3 +526,11 @@ pub fn msvcPragmaPack(comp: *const Compilation, pack: u32) ?u32 {
         },
     };
 }
+
+const PrettyTarget = struct {
+    t: *const std.Target,
+
+    pub fn format(value: PrettyTarget, comptime _: []const u8, _: std.fmt.FormatOptions, writer: anytype) !void {
+        try writer.print("{s}-{s}-{s}-{s}", .{ @tagName(value.t.cpu.arch), value.t.cpu.model.name, @tagName(value.t.os.tag), @tagName(value.t.abi) });
+    }
+};
